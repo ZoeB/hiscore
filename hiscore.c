@@ -26,8 +26,10 @@ int main(int argc, char *argv[])
 					c = -0x20;
 				}
 
+				/* Convert A=1, B=2 etc into ASCII */
 				putc(0x40 + c, stdout);
 			} else {
+				/* Display hex values as if they're decimal, that old 6502 trick */
 				printf("%x", c);
 			}
 

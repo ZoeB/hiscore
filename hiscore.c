@@ -7,7 +7,7 @@ int centiped() {
 	FILE *fp;
 
 	if ((fp = fopen("nvram/centiped/earom", "r")) == NULL) {
-		printf("Sorry, I can't open nvram/centiped/earom\n");
+		printf("Sorry, I can't open nvram/centiped/earom\n\n");
 		return 1;
 	}
 
@@ -30,6 +30,7 @@ int centiped() {
 	fclose(fp);
 
 	/* Print memory to screen */
+	printf("Centipede:\n");
 	for (count = 0; count < 3; count++) {
 		/* Score */
 		/* Display hex values as if they're decimal, that old 6502 trick */
@@ -47,6 +48,7 @@ int centiped() {
 		printf("\n");
 	}
 
+	printf("\n");
 	return 0;
 }
 
@@ -65,6 +67,8 @@ int main(int argc, char *argv[])
 			if (centiped() == 1) {
 				errors = 1;
 			}
+		} else {
+		printf("Sorry, I don't recognise \"%s\"\n\n", argv[arg]);
 		}
 	}
 

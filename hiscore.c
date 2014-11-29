@@ -4,7 +4,7 @@ int main(int argc, char *argv[])
 {
 	FILE *fp;
 	int c = EOF;
-	int col = 0;
+	int count = 0;
 	int row = 0;
 
 	if (argc == 1) {
@@ -18,9 +18,12 @@ int main(int argc, char *argv[])
 			return 1;
 		}
 
-		while ((c = getc(fp)) != EOF) {
+		while ((c = getc(fp)) != EOF && count < 18) {
 			/* Display the high scores */
-			if (row & 1) {
+			if (count < 9) {
+				/* Display hex values as if they're decimal, that old 6502 trick */
+				printf("%x", c);
+			} else {
 				/* Convert spaces */
 				if (c == 0) {
 					c = -0x20;
@@ -28,22 +31,13 @@ int main(int argc, char *argv[])
 
 				/* Convert A=1, B=2 etc into ASCII */
 				putc(0x40 + c, stdout);
-			} else {
-				/* Display hex values as if they're decimal, that old 6502 trick */
-				printf("%x", c);
 			}
 
-			if (col == 7) {
+			if (count % 3 == 2) {
 				putc('\n', stdout);
 			}
 
-			/* Update the column number, from 0 to 7 looping */
-			col++;
-
-			if (col > 7) {
-				col = 0;
-				row++;
-			}
+			count++;
 		}
 
 		fclose(fp);

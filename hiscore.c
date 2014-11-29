@@ -18,6 +18,7 @@ int main(int argc, char *argv[])
 			return 1;
 		}
 
+		/* Read file into memory */
 		for (count = 0; count < 18; count++) {
 			c[count] = getc(fp);
 
@@ -33,19 +34,25 @@ int main(int argc, char *argv[])
 			}
 		}
 
-		for (count = 0; count < 3; count++) {
-				/* Display hex values as if they're decimal, that old 6502 trick */
-				printf("%02x", c[count * 3 + 2]);
-				printf("%02x", c[count * 3 + 1]);
-				printf("%02x", c[count * 3]);
-				printf(" ");
-				printf("%c", c[count * 3 + 9]);
-				printf("%c", c[count * 3 + 10]);
-				printf("%c", c[count * 3 + 11]);
-				printf("\n");
-		}
-
 		fclose(fp);
+
+		/* Print memory to screen */
+		for (count = 0; count < 3; count++) {
+			/* Score */
+			/* Display hex values as if they're decimal, that old 6502 trick */
+			printf("%02x", c[count * 3 + 2]);
+			printf("%02x", c[count * 3 + 1]);
+			printf("%02x", c[count * 3]);
+
+			printf(" ");
+
+			/* Initials */
+			printf("%c", c[count * 3 + 9]);
+			printf("%c", c[count * 3 + 10]);
+			printf("%c", c[count * 3 + 11]);
+
+			printf("\n");
+		}
 	}
 
 	return 0;

@@ -3,7 +3,7 @@
 int main(int argc, char *argv[])
 {
 	FILE *fp;
-	int c = EOF;
+	int c[18] = {'\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'};
 	int count = 0;
 	int row = 0;
 
@@ -18,26 +18,31 @@ int main(int argc, char *argv[])
 			return 1;
 		}
 
-		while ((c = getc(fp)) != EOF && count < 18) {
-			/* Display the high scores */
-			if (count < 9) {
-				/* Display hex values as if they're decimal, that old 6502 trick */
-				printf("%x", c);
-			} else {
-				/* Convert spaces */
-				if (c == 0) {
-					c = -0x20;
+		for (count = 0; count < 18; count++) {
+			c[count] = getc(fp);
+
+			if (count > 8) {
+				/* Initials */
+				if (c[count] == 0) {
+					/* Convert spaces */
+					c[count] = 0x20;
+				} else {
+					/* Convert A=1, B=2 etc into ASCII */
+					c[count] += 0x40;
 				}
-
-				/* Convert A=1, B=2 etc into ASCII */
-				putc(0x40 + c, stdout);
 			}
+		}
 
-			if (count % 3 == 2) {
-				putc('\n', stdout);
-			}
-
-			count++;
+		for (count = 0; count < 3; count++) {
+				/* Display hex values as if they're decimal, that old 6502 trick */
+				printf("%02x", c[count * 3 + 2]);
+				printf("%02x", c[count * 3 + 1]);
+				printf("%02x", c[count * 3]);
+				printf(" ");
+				printf("%c", c[count * 3 + 9]);
+				printf("%c", c[count * 3 + 10]);
+				printf("%c", c[count * 3 + 11]);
+				printf("\n");
 		}
 
 		fclose(fp);

@@ -7,7 +7,7 @@ int centiped() {
 	FILE *fp;
 
 	if ((fp = fopen("nvram/centiped/earom", "r")) == NULL) {
-		printf("Sorry, I can't open nvram/centiped/earom\n\n");
+		printf("Sorry, I can't open nvram/centiped/earom\n");
 		return 1;
 	}
 
@@ -30,7 +30,6 @@ int centiped() {
 	fclose(fp);
 
 	/* Print memory to screen */
-	printf("Centipede:\n");
 	for (count = 0; count < 3; count++) {
 		/* Score */
 		/* Display hex values as if they're decimal, that old 6502 trick */
@@ -48,7 +47,6 @@ int centiped() {
 		printf("\n");
 	}
 
-	printf("\n");
 	return 0;
 }
 
@@ -80,7 +78,6 @@ int outrun() {
 	fclose(fp);
 
 	/* Print memory to screen */
-	printf("Outrun:\n");
 	for (count = 0; count < 7; count++) {
 		printf("       ");
 
@@ -92,33 +89,23 @@ int outrun() {
 		printf("\n");
 	}
 
-	printf("\n");
 	return 0;
 }
 
 int main(int argc, char *argv[])
 {
-	int arg = 0;
-	int errors = 0;
-
-	if (argc == 1) {
+	if (argc != 2) {
 		printf("Please specify a machine name, e.g. \"centiped\"\n");
 		return 0;
 	}
 
-	while (++arg < argc) {
-		if (strcmp(argv[arg], "centiped") == 0) {
-			if (centiped()) {
-				errors = 1;
-			}
-		} else if (strcmp(argv[arg], "outrun") == 0) {
-			if (outrun()) {
-				errors = 1;
-			}
-		} else {
-		printf("Sorry, I don't recognise \"%s\"\n\n", argv[arg]);
-		}
+	if (strcmp(argv[1], "centiped") == 0) {
+		return centiped();
+	} else if (strcmp(argv[1], "outrun") == 0) {
+		return outrun();
+	} else {
+		printf("Sorry, I don't recognise \"%s\"\n", argv[1]);
 	}
 
-	return errors;
+	return 1;
 }

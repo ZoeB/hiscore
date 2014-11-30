@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
 
 	if (strcmp(argv[1], "centiped") == 0) {
 		return centiped();
-	} else if (strcmp(argv[1], "outrun") == 0) {
+	} else if (strcmp(argv[1], "!outrun") == 0) {
 		return outrun();
 	} else {
 		printf("Sorry, I don't recognise \"%s\"\n", argv[1]);

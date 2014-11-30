@@ -79,7 +79,7 @@ int outrun() {
 
 	/* Print memory to screen */
 	for (count = 0; count < 7; count++) {
-		printf("       ");
+		printf(" ");
 
 		/* Initials */
 		printf("%c", c[count * 14 + 1]);

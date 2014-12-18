@@ -50,48 +50,6 @@ int centiped() {
 	return 0;
 }
 
-int outrun() {
-	int c[21] = {'\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'};
-	int count = 0;
-	FILE *fp;
-
-	if ((fp = fopen("nvram/outrun/nvram", "r")) == NULL) {
-		printf("Sorry, I can't open nvram/outrun/nvram\n\n");
-		return 1;
-	}
-
-	/* Read file into memory */
-	for (count = 0; count < 0x472; count++) {
-		getc(fp);
-	}
-
-	for (count = 0; count < 21; count++) {
-		c[count] = getc(fp);
-
-		/* Initials */
-		if (c[count] == 0x5b) {
-			/* Convert dots */
-			c[count] = 0x2e;
-		}
-	}
-
-	fclose(fp);
-
-	/* Print memory to screen */
-	for (count = 0; count < 7; count++) {
-		printf(" ");
-
-		/* Initials */
-		printf("%c", c[count * 14 + 1]);
-		printf("%c", c[count * 14]);
-		printf("%c", c[count * 14 + 3]);
-
-		printf("\n");
-	}
-
-	return 0;
-}
-
 int tempest() {
 	int c[18] = {'\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'};
 	int count = 0;
@@ -154,8 +112,6 @@ int main(int argc, char *argv[])
 
 	if (strcmp(argv[1], "centiped") == 0) {
 		return centiped();
-	} else if (strcmp(argv[1], "!outrun") == 0) {
-		return outrun();
 	} else if (strcmp(argv[1], "tempest") == 0) {
 		return tempest();
 	} else {

@@ -1,14 +1,28 @@
 #include <stdio.h>
 #include <string.h>
 
-int centiped() {
+#define CENTIPED 0
+#define TEMPEST 1
+
+int atari(int game) {
 	int c[18] = {'\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'};
 	int count = 0;
 	FILE *fp;
 
-	if ((fp = fopen("nvram/centiped/earom", "r")) == NULL) {
-		printf("Sorry, I can't open nvram/centiped/earom\n");
-		return 1;
+	switch (game) {
+	case CENTIPED:
+		if ((fp = fopen("nvram/centiped/earom", "r")) == NULL) {
+			printf("Sorry, I can't open nvram/centiped/earom\n");
+			return 1;
+		}
+
+		break;
+
+	case TEMPEST:
+		if ((fp = fopen("nvram/tempest/earom", "r")) == NULL) {
+			printf("Sorry, I can't open nvram/tempest/earom\n");
+			return 1;
+		}
 	}
 
 	/* Read file into memory */
@@ -100,9 +114,11 @@ int main(int argc, char *argv[])
 	}
 
 	if (strcmp(argv[1], "centiped") == 0) {
-		return centiped();
+		return atari(CENTIPED);
 	} else if (strcmp(argv[1], "!outrun") == 0) {
 		return outrun();
+	} else if (strcmp(argv[1], "tempest") == 0) {
+		return atari(TEMPEST);
 	} else {
 		printf("Sorry, I don't recognise \"%s\"\n", argv[1]);
 	}

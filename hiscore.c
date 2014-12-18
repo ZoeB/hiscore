@@ -109,7 +109,7 @@ int tempest() {
 
 		if (count < 9) {
 			/* Initials */
-			if (c[count] == 0) { /* TODO: change 0 to the correct number */
+			if (c[count] == 0x1a) {
 				/* Convert spaces */
 				c[count] = 0x20;
 			} else {

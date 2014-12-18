@@ -103,7 +103,7 @@ int tempest() {
 	}
 
 	/* Read file into memory */
-	for (count = 17; count; count--) {
+	for (count = 17; count > -1; count--) {
 		c[count] = getc(fp);
 
 		if (count > 8) {

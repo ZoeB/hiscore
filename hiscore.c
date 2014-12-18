@@ -93,6 +93,7 @@ int outrun() {
 }
 
 int tempest() {
+	/* TODO: store the data in the array backwards, instead of getting it out again backwards in various contrived ways. */
 	int c[18] = {'\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'};
 	int count = 0;
 	FILE *fp;

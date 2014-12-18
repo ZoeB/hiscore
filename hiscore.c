@@ -106,14 +106,14 @@ int tempest() {
 	for (count = 0; count < 18; count++) {
 		c[count] = getc(fp);
 
-		if (count > 8) {
+		if (count < 9) {
 			/* Initials */
 			if (c[count] == 0) {
 				/* Convert spaces */
 				c[count] = 0x20;
 			} else {
 				/* Convert A=1, B=2 etc into ASCII */
-				c[count] += 0x40;
+				c[count] += 0x41;
 			}
 		}
 	}
@@ -124,16 +124,16 @@ int tempest() {
 	for (count = 0; count < 3; count++) {
 		/* Score */
 		/* Display hex values as if they're decimal, that old 6502 trick */
-		printf("%02x", c[count * 3 + 2]);
-		printf("%02x", c[count * 3 + 1]);
-		printf("%02x", c[count * 3]);
+		printf("%02x", c[count * 3 + 9]);
+		printf("%02x", c[count * 3 + 10]);
+		printf("%02x", c[count * 11]);
 
 		printf(" ");
 
 		/* Initials */
-		printf("%c", c[count * 3 + 9]);
-		printf("%c", c[count * 3 + 10]);
-		printf("%c", c[count * 3 + 11]);
+		printf("%c", c[count * 3 + 2]);
+		printf("%c", c[count * 3 + 1]);
+		printf("%c", c[count * 3]);
 
 		printf("\n");
 	}

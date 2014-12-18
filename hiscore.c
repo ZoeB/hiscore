@@ -93,7 +93,6 @@ int outrun() {
 }
 
 int tempest() {
-	/* TODO: test if the order is right.  When testing this, I happened to have all three top scores, so the initials may not necessarily be matched up to their scores correctly. */
 	int c[18] = {'\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'};
 	int count = 0;
 	FILE *fp;
@@ -129,16 +128,16 @@ int tempest() {
 	for (count = 0; count < 3; count++) {
 		/* Score */
 		/* Display hex values as if they're decimal, that old 6502 trick */
-		printf("%02x", c[count * 3 + 11]);
-		printf("%02x", c[count * 3 + 10]);
-		printf("%02x", c[count * 3 + 9]);
+		printf("%02x", c[(2 - count) * 3 + 11]);
+		printf("%02x", c[(2 - count) * 3 + 10]);
+		printf("%02x", c[(2 - count) * 3 + 9]);
 
 		printf(" ");
 
 		/* Initials */
-		printf("%c", c[count * 3 + 2]);
-		printf("%c", c[count * 3 + 1]);
-		printf("%c", c[count * 3]);
+		printf("%c", c[(2 - count) * 3 + 2]);
+		printf("%c", c[(2 - count) * 3 + 1]);
+		printf("%c", c[(2 - count) * 3]);
 
 		printf("\n");
 	}

@@ -6,7 +6,6 @@ int astdelux() {
 	int checksum = 0;
 	int count = 0;
 	FILE *fp;
-	int offset = 0;
 	int remainder = 0;
 
 	if ((fp = fopen("nvram/astdelux/earom", "r")) == NULL) {
@@ -14,63 +13,47 @@ int astdelux() {
 		return 1;
 	}
 
-	/* Read file into memory */
 	for (count = 0; count < 21; count++) {
 		c[count] = getc(fp);
 		remainder = count % 7;
 
 		if (remainder == 6) {
-			/* Checksum */
+			/* Checksum; end of line */
 
-			if (c[count] == checksum) {
-				c[count] = 1;
-			} else {
-				c[count] = 0;
+			if (c[count] != checksum) {
+				printf(" (Checksum failed)");
 			}
 
+			printf("\n");
 			checksum = 0;
 		} else if (remainder > 2) {
 			/* Initials */
 			checksum += c[count];
 
 			if (c[count] == 0x00) {
-				/* Convert spaces */
+				/* Convert spaces into ASCII */
 				c[count] = 0x20;
 			} else {
 				/* Convert A=11, B=12 etc into ASCII */
 				c[count] += 0x36;
 			}
+
+			printf("%c", c[count]);
 		} else {
-			/* Score */
+			/* Score (backwards bytes consisting of forwards packed binary-coded
+			   decimal) */
 			checksum += c[count];
+
+			if (remainder == 2) {
+				printf("%02x", c[count]);
+				printf("%02x", c[count - 1]);
+				printf("%02x", c[count - 2]);
+				printf(" ");
+			}
 		}
 	}
 
 	fclose(fp);
-
-	/* Print memory to screen */
-	for (count = 0; count < 3; count++) {
-		offset = count * 7;
-
-		/* Score (packed binary-coded decimal) */
-		printf("%02x", c[offset + 2]);
-		printf("%02x", c[offset + 1]);
-		printf("%02x", c[offset]);
-
-		printf(" ");
-
-		/* Initials */
-		printf("%c", c[offset + 3]);
-		printf("%c", c[offset + 4]);
-		printf("%c", c[offset + 5]);
-
-		if (c[offset + 6] == 0) {
-			printf(" (Checksum failed)");
-		}
-
-		printf("\n");
-	}
-
 	return 0;
 }
 

@@ -32,8 +32,7 @@ int astdelux() {
 
 	/* Print memory to screen */
 	for (count = 0; count < 3; count++) {
-		/* Score */
-		/* Display hex values as if they're decimal, that old 6502 trick */
+		/* Score (packed binary-coded decimal) */
 		printf("%02x", c[count * 7 + 2]);
 		printf("%02x", c[count * 7 + 1]);
 		printf("%02x", c[count * 7]);
@@ -81,8 +80,7 @@ int centiped() {
 
 	/* Print memory to screen */
 	for (count = 0; count < 3; count++) {
-		/* Score */
-		/* Display hex values as if they're decimal, that old 6502 trick */
+		/* Score (packed binary-coded decimal) */
 		printf("%02x", c[count * 3 + 2]);
 		printf("%02x", c[count * 3 + 1]);
 		printf("%02x", c[count * 3]);
@@ -134,8 +132,7 @@ int tempest() {
 
 	/* Print memory to screen */
 	for (count = 0; count < 3; count++) {
-		/* Score */
-		/* Display hex values as if they're decimal, that old 6502 trick */
+		/* Score (packed binary-coded decimal) */
 		printf("%02x", c[count * 3]);
 		printf("%02x", c[count * 3 + 1]);
 		printf("%02x", c[count * 3 + 2]);

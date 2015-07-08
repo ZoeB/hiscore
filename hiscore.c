@@ -3,8 +3,11 @@
 
 int astdelux() {
 	int c[21];
+	int checksum = 0;
 	int count = 0;
 	FILE *fp;
+	int offset = 0;
+	int remainder = 0;
 
 	if ((fp = fopen("nvram/astdelux/earom", "r")) == NULL) {
 		printf("Sorry, I can't open nvram/astdelux/earom\n");
@@ -14,9 +17,21 @@ int astdelux() {
 	/* Read file into memory */
 	for (count = 0; count < 21; count++) {
 		c[count] = getc(fp);
+		remainder = count % 7;
 
-		if (count % 7 > 2) {
+		if (remainder == 6) {
+			/* Checksum */
+
+			if (c[count] == checksum) {
+				c[count] = 1;
+			} else {
+				c[count] = 0;
+			}
+
+			checksum = 0;
+		} else if (remainder > 2) {
 			/* Initials */
+			checksum += c[count];
 
 			if (c[count] == 0x00) {
 				/* Convert spaces */
@@ -25,6 +40,9 @@ int astdelux() {
 				/* Convert A=11, B=12 etc into ASCII */
 				c[count] += 0x36;
 			}
+		} else {
+			/* Score */
+			checksum += c[count];
 		}
 	}
 
@@ -32,17 +50,23 @@ int astdelux() {
 
 	/* Print memory to screen */
 	for (count = 0; count < 3; count++) {
+		offset = count * 7;
+
 		/* Score (packed binary-coded decimal) */
-		printf("%02x", c[count * 7 + 2]);
-		printf("%02x", c[count * 7 + 1]);
-		printf("%02x", c[count * 7]);
+		printf("%02x", c[offset + 2]);
+		printf("%02x", c[offset + 1]);
+		printf("%02x", c[offset]);
 
 		printf(" ");
 
 		/* Initials */
-		printf("%c", c[count * 7 + 3]);
-		printf("%c", c[count * 7 + 4]);
-		printf("%c", c[count * 7 + 5]);
+		printf("%c", c[offset + 3]);
+		printf("%c", c[offset + 4]);
+		printf("%c", c[offset + 5]);
+
+		if (c[offset + 6] == 0) {
+			printf(" (Checksum failed)");
+		}
 
 		printf("\n");
 	}
@@ -54,6 +78,7 @@ int centiped() {
 	int c[18] = {'\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'};
 	int count = 0;
 	FILE *fp;
+	int offset = 0;
 
 	if ((fp = fopen("nvram/centiped/earom", "r")) == NULL) {
 		printf("Sorry, I can't open nvram/centiped/earom\n");
@@ -80,17 +105,19 @@ int centiped() {
 
 	/* Print memory to screen */
 	for (count = 0; count < 3; count++) {
+		offset = count * 3;
+
 		/* Score (packed binary-coded decimal) */
-		printf("%02x", c[count * 3 + 2]);
-		printf("%02x", c[count * 3 + 1]);
-		printf("%02x", c[count * 3]);
+		printf("%02x", c[offset + 2]);
+		printf("%02x", c[offset + 1]);
+		printf("%02x", c[offset]);
 
 		printf(" ");
 
 		/* Initials */
-		printf("%c", c[count * 3 + 9]);
-		printf("%c", c[count * 3 + 10]);
-		printf("%c", c[count * 3 + 11]);
+		printf("%c", c[offset + 9]);
+		printf("%c", c[offset + 10]);
+		printf("%c", c[offset + 11]);
 
 		printf("\n");
 	}
@@ -102,6 +129,7 @@ int tempest() {
 	int c[18] = {'\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'};
 	int count = 0;
 	FILE *fp;
+	int offset = 0;
 
 	if ((fp = fopen("nvram/tempest/earom", "r")) == NULL) {
 		printf("Sorry, I can't open nvram/tempest/earom\n");
@@ -132,17 +160,19 @@ int tempest() {
 
 	/* Print memory to screen */
 	for (count = 0; count < 3; count++) {
+		offset = count * 3;
+
 		/* Score (packed binary-coded decimal) */
-		printf("%02x", c[count * 3]);
-		printf("%02x", c[count * 3 + 1]);
-		printf("%02x", c[count * 3 + 2]);
+		printf("%02x", c[offset]);
+		printf("%02x", c[offset + 1]);
+		printf("%02x", c[offset + 2]);
 
 		printf(" ");
 
 		/* Initials */
-		printf("%c", c[count * 3 + 9]);
-		printf("%c", c[count * 3 + 10]);
-		printf("%c", c[count * 3 + 11]);
+		printf("%c", c[offset + 9]);
+		printf("%c", c[offset + 10]);
+		printf("%c", c[offset + 11]);
 
 		printf("\n");
 	}

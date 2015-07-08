@@ -66,7 +66,7 @@ int centiped() {
 
 		if (count > 8) {
 			/* Initials */
-			if (c[count] == 0) {
+			if (c[count] == 0x00) {
 				/* Convert spaces */
 				c[count] = 0x20;
 			} else {

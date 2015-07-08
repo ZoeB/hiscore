@@ -1,6 +1,56 @@
 #include <stdio.h>
 #include <string.h>
 
+int astdelux() {
+	int c[21];
+	int count = 0;
+	FILE *fp;
+
+	if ((fp = fopen("nvram/astdelux/earom", "r")) == NULL) {
+		printf("Sorry, I can't open nvram/astdelux/earom\n");
+		return 1;
+	}
+
+	/* Read file into memory */
+	for (count = 0; count < 21; count++) {
+		c[count] = getc(fp);
+
+		if (count % 7 > 2) {
+			/* Initials */
+
+			if (c[count] == 0x00) {
+				/* Convert spaces */
+				c[count] = 0x20;
+			} else {
+				/* Convert A=11, B=12 etc into ASCII */
+				c[count] += 0x36;
+			}
+		}
+	}
+
+	fclose(fp);
+
+	/* Print memory to screen */
+	for (count = 0; count < 3; count++) {
+		/* Score */
+		/* Display hex values as if they're decimal, that old 6502 trick */
+		printf("%02x", c[count * 7 + 2]);
+		printf("%02x", c[count * 7 + 1]);
+		printf("%02x", c[count * 7]);
+
+		printf(" ");
+
+		/* Initials */
+		printf("%c", c[count * 7 + 3]);
+		printf("%c", c[count * 7 + 4]);
+		printf("%c", c[count * 7 + 5]);
+
+		printf("\n");
+	}
+
+	return 0;
+}
+
 int centiped() {
 	int c[18] = {'\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0', '\0'};
 	int count = 0;
@@ -110,7 +160,9 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 
-	if (strcmp(argv[1], "centiped") == 0) {
+	if (strcmp(argv[1], "astdelux") == 0) {
+		return astdelux();
+	} else if (strcmp(argv[1], "centiped") == 0) {
 		return centiped();
 	} else if (strcmp(argv[1], "tempest") == 0) {
 		return tempest();
